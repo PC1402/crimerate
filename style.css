@@ -1,3 +1,11 @@
+/* Reset basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -5,8 +13,10 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  padding: 20px;
 }
 
+/* Login Box Styles */
 .login-box {
   background: #fff;
   padding: 40px;
@@ -70,4 +80,103 @@ p {
 
 #error-message {
   margin-top: 10px;
+}
+
+/* Dashboard Styles */
+.container {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+  text-align: center;
+}
+
+.dashboard-header {
+  font-size: 2.5em;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.prediction-form label {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.form-input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #3498db;
+}
+
+.submit-btn {
+  padding: 12px 25px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.submit-btn:hover {
+  background-color: #2980b9;
+}
+
+.result-section {
+  margin-top: 30px;
+  font-size: 1.2em;
+  color: #2c3e50;
+}
+
+.result-section h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.result-section ul {
+  list-style: none;
+}
+
+.result-section li {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.result-section li:last-child {
+  border-bottom: none;
+}
+
+.logout-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
 }
