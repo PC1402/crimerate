@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | Crime Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Crime Prediction Dashboard</h2>
+
+    <!-- Prediction Form -->
+    <form id="predictionForm">
+      <label for="city">City:</label><br>
+      <input type="text" id="city" name="city" required><br><br>
+
+      <label for="date">Date:</label><br>
+      <input type="date" id="date" name="date" required><br><br>
+
+      <label for="time">Time:</label><br>
+      <input type="time" id="time" name="time" required><br><br>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    <!-- Prediction Result -->
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <!-- Logout Button -->
+    <button id="logoutBtn" style="margin-top: 20px;">Logout</button>
+  </div>
+
+  <!-- Modular Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAEoYyr1UngbT1UkPl9ZfNhpmCP3tD62cQ",
+      authDomain: "crimerateprediction-d5098.firebaseapp.com",
+      projectId: "crimerateprediction-d5098",
+      storageBucket: "crimerateprediction-d5098.appspot.com",
+      messagingSenderId: "365884272529",
+      appId: "1:365884272529:web:8a386b1c1addcbf3e23430",
+      measurementId: "G-L5VK0Y8WEP"
+    };
+
+    // ✅ Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ✅ Redirect to login if not authenticated
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    // ✅ Logout functionality
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
+
+    // ✅ Prediction form submission
+    document.getElementById("predictionForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const city = document.getElementById("city").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+
+      document.getElementById("result").innerHTML = "<p>🔍 Predicting...</p>";
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "City": city,
+            "Date of Occurrence": date,
+            "Time of Occurrence": time
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          let output = `
+            <h3>📊 Prediction Result:</h3>
+            <ul>
+              <li><strong>Crime Description:</strong> ${data["Crime Description"]}</li>
+              <li><strong>Victim Age:</strong> ${data["Victim Age"]}</li>
+              <li><strong>Victim Gender:</strong> ${data["Victim Gender"]}</li>
+              <li><strong>Crime Domain:</strong> ${data["Crime Domain"]}</li>
+            </ul>
+          `;
+          document.getElementById("result").innerHTML = output;
+        } else {
+          document.getElementById("result").innerHTML = `<p>❌ Error: ${data.error}</p>`;
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        document.getElementById("result").innerHTML = `<p>❌ Error: Could not connect to server.</p>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
