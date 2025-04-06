@@ -3,24 +3,22 @@ import os
 import pickle
 import pandas as pd
 from datetime import datetime
-import requests
+import gdown  # 👈 switched from requests to gdown
 
 app = Flask(__name__)
 
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1eBoBqYIlnA_7I5kJ6pCJo-V6j36UU47Q"
+MODEL_URL = "https://drive.google.com/uc?id=1eBoBqYIlnA_7I5kJ6pCJo-V6j36UU47Q"
 MODEL_PATH = "model.pkl"
 ENCODER_PATH = "label_encoders.pkl"
 
-# ✅ Download model from Google Drive if not found
+# ✅ Download model from Google Drive using gdown
 def download_file(url, destination):
     if not os.path.exists(destination):
-        print(f"📦 Downloading {destination}...")
-        response = requests.get(url)
-        with open(destination, 'wb') as f:
-            f.write(response.content)
+        print(f"📦 Downloading {destination} from Google Drive...")
+        gdown.download(url, destination, quiet=False)
         print(f"✅ Downloaded {destination}")
 
-# 📥 Check and download model + encoder
+# 📥 Check and download model
 download_file(MODEL_URL, MODEL_PATH)
 
 # 🔁 Load model and encoders
