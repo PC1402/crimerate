@@ -7,7 +7,7 @@ import gdown  # 👈 switched from requests to gdown
 
 app = Flask(__name__)
 
-MODEL_URL = "https://drive.google.com/uc?id=1eBoBqYIlnA_7I5kJ6pCJo-V6j36UU47Q"
+MODEL_URL = "https://drive.google.com/uc?id=15Yf2HoO-HlTwm09pd0-GVF3RqtJqb_Jb"
 MODEL_PATH = "model.pkl"
 ENCODER_PATH = "label_encoders.pkl"
 
