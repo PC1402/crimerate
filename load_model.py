@@ -1,12 +1,30 @@
+import os
+import requests
 import pickle
 
-# Load the model from the pickle file
-with open('model.pkl', 'rb') as file:
-    model = pickle.load(file)
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1eBoBqYIlnA_7I5kJ6pCJo-V6j36UU47Q"
+MODEL_PATH = "model.pkl"
 
-# Check if the model is loaded correctly
-print(model)
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        print("📦 Downloading model from Google Drive...")
+        response = requests.get(MODEL_URL)
+        with open(MODEL_PATH, 'wb') as f:
+            f.write(response.content)
+        print("✅ Model downloaded!")
 
-# If you want to see the model's details (like hyperparameters, if available)
-# You can print its type and check the model
-print(type(model))
+def load_model():
+    # Download if not exists
+    download_model()
+
+    # Load model from pickle file
+    with open(MODEL_PATH, 'rb') as file:
+        model = pickle.load(file)
+
+    # Debug info (optional)
+    print("✅ Model loaded successfully.")
+    print(f"📘 Model type: {type(model)}")
+    print("🧠 Model preview:")
+    print(model)
+
+    return model
